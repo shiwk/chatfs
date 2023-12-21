@@ -1,7 +1,7 @@
 #include "chatfs.h"
+#include <iostream>
 
 
 int main(int argc, char *argv[]) {
-    // Path: main.cpp
-    // Compare this snippet from src
+    std::cout << "Hello, World." <<std::endl;
 }
