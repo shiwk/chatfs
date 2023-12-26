@@ -3,18 +3,16 @@
 
 ## Prerequisite
 
- It is totally based on OSXFuse envirment. With lastest version of [FUSE for OS X](https://osxfuse.github.io/) installed, you need set below environment variable:
-
- `export FUSE_INC_DIR={FUSE_HEADERS_DIR}`
-
-
- `FUSE_HEADERS_DIR` is where fuse headers are placed. 
+ It is totally based on OSXFuse envirment. With lastest version of [FUSE for OS X](https://osxfuse.github.io/) installed, 
  
- MacFUSE installs a `fuse.pc` file in `/usr/local/lib/pkgconfig/` in which you can check for more details.
+`fuse.pc` file placed in `/usr/local/lib/pkgconfig/` tells more details about `cflags`.
+
+ `pkg-config fuse --cflags --libs`
 
 ## Build & Clean
 
  `sh build.sh`
+ 
  `sh clean.sh`
 
 
