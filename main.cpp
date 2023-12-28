@@ -4,5 +4,5 @@
 int main(int argc, char *argv[])
 {
     std::cout << "Hello, World." << std::endl;
-    return fuse_main(argc, argv, &chatfs_operations, NULL);
+    return fuse_main(argc, argv, &chatfs::chatfs_operations, NULL);
 }

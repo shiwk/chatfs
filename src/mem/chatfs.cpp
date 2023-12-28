@@ -1,7 +1,10 @@
 #include "chatfs.h"
+#include "fsutil.h"
+#include <iostream>
+#include <unistd.h>
 
-fuse_operations chatfs_operations = {
-    .getattr = chatfs_getattr,
+chatfs::fuse_op chatfs::chatfs_operations = {
+    .getattr = chatfs::chatfs_get_attr,
     // .readdir = chatfs_readdir,
     // .open = chatfs_open,
     // .read = chatfs_read,
@@ -55,7 +58,30 @@ fuse_operations chatfs_operations = {
     // .ioctl = chat
 };
 
-int chatfs_getattr(const char *p, struct stat *st)
+static uid_t guid = getuid();
+static gid_t ggid = getgid();
+
+int chatfs::chatfs_get_attr(const char *p, s_stat *st)
 {
-    return 0;
+	st->st_uid = guid; // The owner of the file/directory is the user who mounted the filesystem
+	st->st_gid = ggid; // The group of the file/directory is the same as the group of the user who mounted the filesystem
+	st->st_atime = time( NULL ); // The last "a"ccess of the file/directory is right now
+	st->st_mtime = time( NULL ); // The last "m"odification of the file/directory is right now
+	
+	if ( chatfs::fsutil::isDir(p))
+	{
+		st->st_mode = S_IFDIR | 0755;
+		st->st_nlink = 2;
+        return 0;
+	}
+	
+    if ( chatfs::fsutil::isFile(p))
+	{
+		st->st_mode = S_IFREG | 0644;
+		st->st_nlink = 1;
+		st->st_size = 1024;
+        return 0;
+	}
+
+    return CHATFSERR(ENOENT);
 }

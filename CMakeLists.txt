@@ -12,7 +12,8 @@ endif()
 # include_directories(${FUSE_INC_DIR})
 
 # file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp)
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+set(SRC_CH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/mem)
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp)
 
 # link_directories(${FUSE_LIB_DIR})
 add_executable( chatfs
