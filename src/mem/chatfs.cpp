@@ -63,11 +63,6 @@ static gid_t ggid = getgid();
 
 int chatfs::chatfs_get_attr(const char *p, s_stat *st)
 {
-	st->st_uid = guid; // The owner of the file/directory is the user who mounted the filesystem
-	st->st_gid = ggid; // The group of the file/directory is the same as the group of the user who mounted the filesystem
-	st->st_atime = time( NULL ); // The last "a"ccess of the file/directory is right now
-	st->st_mtime = time( NULL ); // The last "m"odification of the file/directory is right now
-	
 	if ( chatfs::fsutil::isDir(p))
 	{
 		st->st_mode = S_IFDIR | 0755;
@@ -82,6 +77,11 @@ int chatfs::chatfs_get_attr(const char *p, s_stat *st)
 		st->st_size = 1024;
         return 0;
 	}
+    st->st_uid = guid;
+	st->st_gid = ggid;
+    time_t now = fsutil::timeNow();
+	st->st_atime = now;
+	st->st_mtime = now;
 
     return CHATFSERR(ENOENT);
 }
