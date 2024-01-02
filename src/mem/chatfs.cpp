@@ -1,11 +1,13 @@
 #include "chatfs.h"
 #include "fsutil.h"
+#include "dir.h"
 #include <iostream>
 #include <unistd.h>
 
+
 chatfs::fuse_op chatfs::chatfs_operations = {
     .getattr = chatfs::chatfs_get_attr,
-    // .readdir = chatfs_readdir,
+    .readdir = chatfs::chatfs_read_dir,
     // .open = chatfs_open,
     // .read = chatfs_read,
     // .write = chatfs_write,
@@ -63,25 +65,35 @@ static gid_t ggid = getgid();
 
 int chatfs::chatfs_get_attr(const char *p, s_stat *st)
 {
-	if ( chatfs::fsutil::isDir(p))
-	{
-		st->st_mode = S_IFDIR | 0755;
-		st->st_nlink = 2;
+    if (fsutil::isDir(p))
+    {
+        st->st_mode = S_IFDIR | 0755; // change mode drwxrwxr-x
+        st->st_nlink = 2;
         return 0;
-	}
-	
-    if ( chatfs::fsutil::isFile(p))
-	{
-		st->st_mode = S_IFREG | 0644;
-		st->st_nlink = 1;
-		st->st_size = 1024;
+    }
+
+    if (fsutil::isFile(p))
+    {
+        st->st_mode = S_IFREG | 0644; // change mode -rw-r--r--
+        st->st_nlink = 1;
+        st->st_size = 1024;
         return 0;
-	}
+    }
     st->st_uid = guid;
-	st->st_gid = ggid;
+    st->st_gid = ggid;
     time_t now = fsutil::timeNow();
-	st->st_atime = now;
-	st->st_mtime = now;
+    st->st_atime = now;
+    st->st_mtime = now;
 
     return CHATFSERR(ENOENT);
 }
+
+int chatfs::chatfs_read_dir(const char *p, void *b, fuse_fill_dir_t filler, off_t offset, chatfs::fuse_fi *fi)
+{
+    if (!fsutil::isDir(p))
+        return CHATFSERR(ENOTDIR);
+    
+    std::shared_ptr<dir::sDir> cur (new dir::sDir(p));
+    return cur->list(b, filler);
+}
+

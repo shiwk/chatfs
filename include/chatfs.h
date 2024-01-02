@@ -26,7 +26,7 @@ namespace chatfs
      * @param offset Offsets of directory entries
      * @param fi Fuse file info
     */
-    int chatfs_read_dir(const char *p, void *b, fuse_fill_dir_t filler, off_t offset,  *fi);
+    int chatfs_read_dir(const char *p, void *b, fuse_fill_dir_t filler, off_t offset, fuse_fi *fi);
     extern fuse_op chatfs_operations;
 } // namespace chatfs
 
