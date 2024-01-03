@@ -6,18 +6,20 @@
 #endif
 
 #include <fuse.h>
+#include "common.h"
 
 namespace chatfs
 {
-    namespace dir{
+    namespace dir
+    {
         struct sDir
         {
-            sDir(const char *p);
-            int list(void *b, fuse_fill_dir_t filler);
+            sDir(p_path p);
+            int list(p_outBuf b, fuse_fill_dir_t filler);
         };
-    }
-    
+        
+        int mkdir(p_path p, mode_t m);
+    } // namespace dir
 } // namespace chatfs
-
 
 #endif

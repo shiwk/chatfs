@@ -2,10 +2,11 @@
 #define FSUTIL_HPP
 
 #include <time.h>
+#include "common.h"
 namespace chatfs {
     namespace fsutil {
-        bool isDir(const char *p);
-        bool isFile(const char *p);
+        bool isDir(p_path);
+        bool isFile(p_path);
         time_t timeNow();
     }
 }

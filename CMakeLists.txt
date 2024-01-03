@@ -15,10 +15,12 @@ endif()
 set(SRC_CH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/mem)
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp)
 
+
 # link_directories(${FUSE_LIB_DIR})
 add_executable( chatfs
         ${SOURCES}
         ${HEADERS})
 
+message(STATUS "FUSE_LIB_DIR: ${FUSE_LIB_DIR}")
 
 target_link_libraries(chatfs fuse)

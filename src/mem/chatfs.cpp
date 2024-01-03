@@ -1,18 +1,19 @@
 #include "chatfs.h"
 #include "fsutil.h"
 #include "dir.h"
+#include "file.h"
 #include <iostream>
 #include <unistd.h>
 
-
-chatfs::fuse_op chatfs::chatfs_operations = {
+chatfs::s_fuseOp chatfs::chatfs_operations = {
     .getattr = chatfs::chatfs_get_attr,
     .readdir = chatfs::chatfs_read_dir,
+    .read = chatfs::chatfs_read_file,
+    .mkdir = chatfs::chatfs_mkdir,
+    .mknod = chatfs::chatfs_mknod,
+    .write = chatfs::chatfs_write_file,
     // .open = chatfs_open,
-    // .read = chatfs_read,
-    // .write = chatfs_write,
     // .release = chatfs_release,
-    // .mkdir = chatfs_mkdir,
     // .rmdir = chatfs_rmdir,
     // .unlink = chatfs_unlink,
     // .rename = chatfs_rename,
@@ -63,7 +64,7 @@ chatfs::fuse_op chatfs::chatfs_operations = {
 static uid_t guid = getuid();
 static gid_t ggid = getgid();
 
-int chatfs::chatfs_get_attr(const char *p, s_stat *st)
+int chatfs::chatfs_get_attr(p_path p, s_stat *st)
 {
     if (fsutil::isDir(p))
     {
@@ -85,15 +86,43 @@ int chatfs::chatfs_get_attr(const char *p, s_stat *st)
     st->st_atime = now;
     st->st_mtime = now;
 
-    return CHATFSERR(ENOENT);
+    return __CHATFSERR__(ENOENT);
 }
 
-int chatfs::chatfs_read_dir(const char *p, void *b, fuse_fill_dir_t filler, off_t offset, chatfs::fuse_fi *fi)
+int chatfs::chatfs_read_dir(p_path p, void *b, fuse_fill_dir_t filler, off_t offset, chatfs::s_fuseFI *fi)
 {
     if (!fsutil::isDir(p))
-        return CHATFSERR(ENOTDIR);
-    
-    std::shared_ptr<dir::sDir> cur (new dir::sDir(p));
-    return cur->list(b, filler);
+        return __CHATFSERR__(ENOTDIR);
+
+    std::shared_ptr<dir::sDir> cur(new dir::sDir(p));
+    return cur->list((p_outBuf)b, filler);
 }
 
+int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
+{
+    if (!fsutil::isFile(p))
+        return __CHATFSERR__(ENOTDIR);
+
+    std::shared_ptr<file::sFile> cur(new file::sFile(p));
+    return cur->read(b, size, offset);
+}
+
+int chatfs::chatfs_mkdir(p_path p, mode_t m)
+{
+    return dir::mkdir(p, m);
+}
+
+int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
+{
+    return file::mknod(p, m, d);
+}
+
+int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_fuseFI *fi)
+{
+    if (!fsutil::isFile(p))
+        return __CHATFSERR__(ENOTDIR);
+    
+    std::shared_ptr<file::sFile> cur(new file::sFile(p));
+    return cur->write(b, size, offset);
+    return 0;
+}
