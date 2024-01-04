@@ -4,7 +4,7 @@
 #include <time.h>
 #include "common.h"
 namespace chatfs {
-    namespace fsutil {
+    namespace util {
         bool isDir(p_path);
         bool isFile(p_path);
         time_t timeNow();

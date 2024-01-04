@@ -66,14 +66,14 @@ static gid_t ggid = getgid();
 
 int chatfs::chatfs_get_attr(p_path p, s_stat *st)
 {
-    if (fsutil::isDir(p))
+    if (util::isDir(p))
     {
         st->st_mode = S_IFDIR | 0755; // change mode drwxrwxr-x
         st->st_nlink = 2;
         return 0;
     }
 
-    if (fsutil::isFile(p))
+    if (util::isFile(p))
     {
         st->st_mode = S_IFREG | 0644; // change mode -rw-r--r--
         st->st_nlink = 1;
@@ -82,7 +82,7 @@ int chatfs::chatfs_get_attr(p_path p, s_stat *st)
     }
     st->st_uid = guid;
     st->st_gid = ggid;
-    time_t now = fsutil::timeNow();
+    time_t now = util::timeNow();
     st->st_atime = now;
     st->st_mtime = now;
 
@@ -91,7 +91,7 @@ int chatfs::chatfs_get_attr(p_path p, s_stat *st)
 
 int chatfs::chatfs_read_dir(p_path p, void *b, fuse_fill_dir_t filler, off_t offset, chatfs::s_fuseFI *fi)
 {
-    if (!fsutil::isDir(p))
+    if (!util::isDir(p))
         return __CHATFSERR__(ENOTDIR);
 
     std::shared_ptr<dir::sDir> cur(new dir::sDir(p));
@@ -100,7 +100,7 @@ int chatfs::chatfs_read_dir(p_path p, void *b, fuse_fill_dir_t filler, off_t off
 
 int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
-    if (!fsutil::isFile(p))
+    if (!util::isFile(p))
         return __CHATFSERR__(ENOTDIR);
 
     std::shared_ptr<file::sFile> cur(new file::sFile(p));
@@ -119,7 +119,7 @@ int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
 
 int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
-    if (!fsutil::isFile(p))
+    if (!util::isFile(p))
         return __CHATFSERR__(ENOTDIR);
     
     std::shared_ptr<file::sFile> cur(new file::sFile(p));

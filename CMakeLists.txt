@@ -11,7 +11,6 @@ endif()
 
 # include_directories(${FUSE_INC_DIR})
 
-# file(GLOB HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp)
 set(SRC_CH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/mem)
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp)
 

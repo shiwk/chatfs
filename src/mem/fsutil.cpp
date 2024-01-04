@@ -2,7 +2,7 @@
 
 namespace chatfs
 {
-    namespace fsutil
+    namespace util
     {
         bool isDir(p_path p)
         {
