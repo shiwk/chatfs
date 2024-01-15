@@ -7,6 +7,8 @@
 #include <fuse.h>
 #include "common.h"
 
+
+
 namespace chatfs
 {
     /**

@@ -190,9 +190,10 @@ static int chatfs_read_dir_1(const char *path, void *buffer, fuse_fill_dir_t fil
 }
 
 static struct fuse_operations chatfs_operations = {
-    .getattr = do_getattr,
+    // .getattr = do_getattr,
     .getattr = chatfs::chatfs_get_attr,
     .readdir = chatfs::chatfs_read_dir,
+    .mkdir = chatfs::chatfs_mkdir
 };
 
 int main(int argc, char *argv[])

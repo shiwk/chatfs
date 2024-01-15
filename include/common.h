@@ -1,6 +1,10 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#ifndef FUSE_USE_VERSION
+#define FUSE_USE_VERSION 26
+#endif
+
 namespace chatfs
 {
     #define __CHATFSERR__(ERR) -ERR
