@@ -171,24 +171,6 @@ static struct fuse_operations operations = {
     .write = do_write,
 };
 
-static int chatfs_read_dir_1(const char *path, void *buffer, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
-{
-    std::cout << "read dir 1" << path << std::endl;
-    filler(buffer, ".", NULL, 0);  // Current Directory
-    filler(buffer, "..", NULL, 0); // Parent Directory
-
-    if (strcmp(path, "/") == 0) // If the user is trying to show the files/directories of the root directory show the following
-    {
-        for (int curr_idx = 0; curr_idx <= curr_dir_idx; curr_idx++)
-            filler(buffer, dir_list[curr_idx], NULL, 0);
-
-        for (int curr_idx = 0; curr_idx <= curr_file_idx; curr_idx++)
-            filler(buffer, files_list[curr_idx], NULL, 0);
-    }
-
-    return 0;
-}
-
 static struct fuse_operations chatfs_operations = {
     // .getattr = do_getattr,
     .getattr = chatfs::chatfs_get_attr,

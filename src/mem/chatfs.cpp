@@ -10,7 +10,7 @@ static gid_t ggid = getgid();
 
 int chatfs::chatfs_get_attr(p_path p, s_stat *st)
 {
-    std::cout << "begin read chatfs file " << p << std::endl;
+    std::cout << "begin read chatfs attr " << p << std::endl;
     st->st_uid = guid;
     st->st_gid = ggid;
     time_t now = chatfs::util::timeNow();
@@ -61,10 +61,8 @@ int chatfs::chatfs_mkdir(p_path p, mode_t m)
 {
     std::cout << "begin mkdir " << p << std::endl;
     int ret = chatfs::util::mkDir(p, m);
-    if (ret == 0)
-        return 0;
     std::cout << "end mkdir " << p << std::endl;
-    return __CHATFSERR__(ret);
+    return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
 int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)

@@ -1,5 +1,6 @@
 #include "fsutil.h"
 #include <vector>
+#include <iostream>
 
 static std::vector<chatfs::p_path> dirs;
 static std::vector<chatfs::p_path> files;
@@ -37,7 +38,7 @@ namespace chatfs
             {
                 return EEXIST;
             }
-            dirs.push_back(p);
+            dirs.push_back(++p);
             return 0;
         }
 
@@ -54,11 +55,13 @@ namespace chatfs
 
             for (auto i : dirs)
             {
+                std::cout << "dir: " << i << std::endl;
                 f(b, i, NULL, 0);
             }
 
             for (auto i : files)
             {
+                std::cout << "file : " << i << std::endl;
                 f(b, i, NULL, 0);
             }
 
