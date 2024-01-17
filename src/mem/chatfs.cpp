@@ -47,14 +47,10 @@ int chatfs::chatfs_read_dir(const char * p, void *b, fuse_fill_dir_t filler, off
 
 int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
-    if (!chatfs::util::isFile(p))
-    {
-        std::cout << "not a file:" << p << std::endl;
-        return __CHATFSERR__(ENOTDIR);
-    }
-
-    std::shared_ptr<chatfs::file::sFile> cur(new chatfs::file::sFile(p));
-    return cur->read(b, size, offset);
+    std::cout << "begin read chatfs file " << p << std::endl;
+    int ret = chatfs::util::read(p, b, size, offset, fi);
+    std::cout << "end read chatfs file " << p << std::endl;
+    return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
 int chatfs::chatfs_mkdir(p_path p, mode_t m)
@@ -67,15 +63,16 @@ int chatfs::chatfs_mkdir(p_path p, mode_t m)
 
 int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
 {
-    return chatfs::file::mknod(p, m, d);
+    std::cout << "begin mknod " << p << std::endl;
+    int ret = chatfs::util::mkNod(p, m, d);
+    std::cout << "end mknod " << p << std::endl;
+    return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
 int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
-    if (!chatfs::util::isFile(p))
-        return __CHATFSERR__(ENOTDIR);
-    
-    std::shared_ptr<chatfs::file::sFile> cur(new chatfs::file::sFile(p));
-    return cur->write(b, size, offset);
-    return 0;
+    std::cout << "begin write file " << p << std::endl;
+    int ret = chatfs::util::write(p, b, size, offset, fi);
+    std::cout << "end write file " << p << std::endl;
+    return ret == 0 ? 0 : __CHATFSERR__(ret);
 }

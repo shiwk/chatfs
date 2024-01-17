@@ -1,13 +1,7 @@
 #ifndef CHATFS_HPP
 #define CHATFS_HPP
 
-#ifndef FUSE_USE_VERSION
-#define FUSE_USE_VERSION 26
-#endif
-#include <fuse.h>
 #include "common.h"
-
-
 
 namespace chatfs
 {
@@ -27,7 +21,7 @@ namespace chatfs
      * @param fi Fuse file info
      * @return 0 on success, -1 on failure
     */
-    int chatfs_read_dir(const char *, void *b, fuse_fill_dir_t filler, off_t, struct fuse_file_info *fi);
+    int chatfs_read_dir(p_path, void *b, fuse_fill_dir_t filler, off_t, s_fuseFI *fi);
 
     /**
      * @brief Read file

@@ -1,9 +1,13 @@
 #include "fsutil.h"
 #include <vector>
 #include <iostream>
+#include <string>
+#include <unordered_map>
 
-static std::vector<chatfs::p_path> dirs;
-static std::vector<chatfs::p_path> files;
+
+static std::vector<std::string> dirs;
+static std::vector<std::string> files;
+static std::unordered_map<std::string, std::string> fileContents;
 
 namespace chatfs
 {
@@ -14,9 +18,9 @@ namespace chatfs
             if (strcmp(p, "/") == 0)
                 return true;
 
-            for (auto i : dirs)
+            for (auto d : dirs)
             {
-                if (strcmp(p + 1, i) == 0)
+                if (strcmp(p + 1, d.data()) == 0)
                     return true;
             }
             
@@ -24,9 +28,9 @@ namespace chatfs
         }
         bool isFile(p_path p)
         {
-            for (auto i : files)
+            for (auto f : files)
             {
-                if (strcmp(p + 1, i) == 0)
+                if (strcmp(p + 1, f.data()) == 0)
                     return true;
             }
             return false;
@@ -38,14 +42,29 @@ namespace chatfs
             {
                 return EEXIST;
             }
-            dirs.push_back(++p);
+            ++p;
+            std::cout << "new dir:" << p << std::endl;
+            dirs.emplace_back(p);
             return 0;
         }
 
-        int listDir(p_path p, void* b, fuse_fill_dir_t f)
+        int mkNod(p_path p, mode_t m, dev_t d)
         {
-            f(b, ".", NULL, 0);  // Current Directory
-            f(b, "..", NULL, 0); // Parent Directory
+            if (isDir(p) || isFile(p))
+            {
+                return EEXIST;
+            }
+
+            ++p;
+            std::cout << "new file:" << p << std::endl;
+            files.emplace_back(p);
+            return 0;
+        }
+
+        int listDir(p_path p, void* b, fuse_fill_dir_t fill)
+        {
+            fill(b, ".", NULL, 0);  // Current Directory
+            fill(b, "..", NULL, 0); // Parent Directory
 
             if (strcmp(p, "/") != 0)
             {
@@ -53,20 +72,47 @@ namespace chatfs
                 return 0;
             }
 
-            for (auto i : dirs)
+            for (auto d : dirs)
             {
-                std::cout << "dir: " << i << std::endl;
-                f(b, i, NULL, 0);
+                std::cout << "dir:" << d << std::endl;
+                fill(b, d.data(), NULL, 0);
             }
 
-            for (auto i : files)
+            for (auto f : files)
             {
-                std::cout << "file : " << i << std::endl;
-                f(b, i, NULL, 0);
+                std::cout << "file:" << f << std::endl;
+                fill(b, f.data(), NULL, 0);
             }
 
             return 0;
 
+        }
+
+        int read(p_path p, p_outBuf b, size_t s, off_t off, s_fuseFI *)
+        {
+            if (!isFile(p))
+            {
+                return ENOENT;
+            }
+
+            if (fileContents.find(p) == fileContents.end())
+            {
+                return 0;
+            }
+            
+            memcpy(b, fileContents[p].data() + off, s);
+
+            return fileContents[p].size() - off;
+        }
+
+        int write(p_path p, p_inBuf b, size_t s, off_t off, s_fuseFI * fi)
+        {
+            if (!isFile(p))
+            {
+                return ENOENT;
+            }
+            fileContents.emplace(p, b);
+            return 0;
         }
 
         time_t timeNow()

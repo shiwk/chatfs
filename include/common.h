@@ -4,6 +4,7 @@
 #ifndef FUSE_USE_VERSION
 #define FUSE_USE_VERSION 26
 #endif
+#include <fuse.h>
 
 namespace chatfs
 {

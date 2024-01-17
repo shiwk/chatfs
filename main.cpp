@@ -175,7 +175,10 @@ static struct fuse_operations chatfs_operations = {
     // .getattr = do_getattr,
     .getattr = chatfs::chatfs_get_attr,
     .readdir = chatfs::chatfs_read_dir,
-    .mkdir = chatfs::chatfs_mkdir
+    .mkdir = chatfs::chatfs_mkdir,
+    .mknod = chatfs::chatfs_mknod,
+    .write = chatfs::chatfs_write_file,
+    .read = chatfs::chatfs_read_file,
 };
 
 int main(int argc, char *argv[])
