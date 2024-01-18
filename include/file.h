@@ -2,19 +2,23 @@
 #define FILE_HPP
 
 #include <sys/types.h>
-#include "common.h" 
+#include "common.h"
+#include <string>
 namespace chatfs
 {
     namespace file
     {
         struct sFile
         {
-            sFile(p_path p);
+            sFile(p_path p) : path(p) { content = ""; };
             int read(p_outBuf b, size_t s, off_t o);
             int write(p_inBuf b, size_t s, off_t o);
+            int size();
+            p_path path;
+
+        private:
+            std::string content;
         };
-        
-        int mknod(p_path p, mode_t m, dev_t d);
     }
 } // namespace chatfs
 

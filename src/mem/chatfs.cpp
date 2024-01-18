@@ -20,20 +20,22 @@ int chatfs::chatfs_get_attr(p_path p, s_stat *st)
     {
         st->st_mode = S_IFDIR | 0755; // change mode drwxrwxr-x
         st->st_nlink = 2;
+        std::cout << "end read dir attr " << p << std::endl;
+        return 0;
     }
-    else if (chatfs::util::isFile(p))
+    
+    std::shared_ptr<chatfs::file::sFile> filePtr;
+    if (chatfs::util::GetFile(p, filePtr))
     {
         st->st_mode = S_IFREG | 0644; // change mode -rw-r--r--
         st->st_nlink = 1;
-        st->st_size = 1024;
-    }
-    else
-    {
-        return __CHATFSERR__(ENOENT);
+        st->st_size = filePtr->size();
+        std::cout << "end read file attr " << p << std::endl;
+        return 0;
     }
     
-    std::cout << "end read chatfs file " << p << std::endl;
-    return 0;
+    std::cout << "No such directory or file: " << p << std::endl;
+    return __CHATFSERR__(ENOENT);
 }
 
 int chatfs::chatfs_read_dir(const char * p, void *b, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
@@ -45,13 +47,6 @@ int chatfs::chatfs_read_dir(const char * p, void *b, fuse_fill_dir_t filler, off
     return 0;
 }
 
-int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
-{
-    std::cout << "begin read chatfs file " << p << std::endl;
-    int ret = chatfs::util::read(p, b, size, offset, fi);
-    std::cout << "end read chatfs file " << p << std::endl;
-    return ret == 0 ? 0 : __CHATFSERR__(ret);
-}
 
 int chatfs::chatfs_mkdir(p_path p, mode_t m)
 {
@@ -69,10 +64,18 @@ int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
     return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
+int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
+{
+    std::cout << "begin read chatfs file " << p << std::endl;
+    int ret = chatfs::util::read(p, b, size, offset, fi);
+    std::cout << "end read chatfs file " << p << std::endl;
+    return ret >= 0 ? ret : __CHATFSERR__(ret);
+}
+
 int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
     std::cout << "begin write file " << p << std::endl;
     int ret = chatfs::util::write(p, b, size, offset, fi);
     std::cout << "end write file " << p << std::endl;
-    return ret == 0 ? 0 : __CHATFSERR__(ret);
+    return ret >= 0 ? ret : __CHATFSERR__(ret);
 }

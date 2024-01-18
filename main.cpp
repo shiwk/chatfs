@@ -96,7 +96,7 @@ static int do_getattr(const char *path, struct stat *st)
     {
         st->st_mode = S_IFREG | 0644;
         st->st_nlink = 1;
-        st->st_size = 1024;
+        st->st_size = 256;
     }
     else
     {
