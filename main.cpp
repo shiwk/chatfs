@@ -179,6 +179,8 @@ static struct fuse_operations chatfs_operations = {
     .mknod = chatfs::chatfs_mknod,
     .write = chatfs::chatfs_write_file,
     .read = chatfs::chatfs_read_file,
+    .truncate = chatfs::chatfs_truncate,
+    .unlink = chatfs::chatfs_unlink
 };
 
 int main(int argc, char *argv[])

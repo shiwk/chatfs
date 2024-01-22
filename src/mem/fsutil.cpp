@@ -115,6 +115,26 @@ namespace chatfs
             return file->write(b, s, off);
         }
 
+        int truncate(p_path p, off_t offset)
+        {
+            if (!isFile(p))
+            {
+                return ENOENT;
+            }
+            auto file = fileMap[p + 1];
+            return file->truncate(offset);
+        }
+
+        int unlink(p_path p)
+        {
+            if (!isFile(p))
+            {
+                return ENOENT;
+            }
+            fileMap.erase(p + 1);
+            return 0;
+        }
+
         time_t timeNow()
         {
             return time(nullptr);

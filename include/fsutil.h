@@ -18,6 +18,8 @@ namespace chatfs
         int listDir(p_path, void *, fuse_fill_dir_t);
         int read(p_path, p_outBuf, size_t, off_t, s_fuseFI *);
         int write(p_path, p_inBuf, size_t, off_t, s_fuseFI *);
+        int truncate(p_path, off_t);
+        int unlink(p_path);
         time_t timeNow();
     }
 }

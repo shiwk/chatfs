@@ -79,3 +79,19 @@ int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_
     std::cout << "end write file " << p << std::endl;
     return ret >= 0 ? ret : __CHATFSERR__(ret);
 }
+
+int chatfs::chatfs_truncate(p_path p , off_t offset)
+{
+    std::cout << "begin truncate file " << p << std::endl;
+    int ret = chatfs::util::truncate(p, offset);
+    std::cout << "end truncate file " << p << std::endl;
+    return ret >= 0 ? ret : __CHATFSERR__(ret);
+}
+
+int chatfs::chatfs_unlink(p_path p )
+{
+    std::cout << "begin unlink file " << p << std::endl;
+    int ret = chatfs::util::unlink(p);
+    std::cout << "end unlink file " << p << std::endl;
+    return ret >= 0 ? ret : __CHATFSERR__(ret);
+}

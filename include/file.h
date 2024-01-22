@@ -10,14 +10,16 @@ namespace chatfs
     {
         struct sFile
         {
-            sFile(p_path p) : path(p) { content = ""; };
+            sFile(p_path p) : path(p) { content_ = ""; };
             int read(p_outBuf b, size_t s, off_t o);
             int write(p_inBuf b, size_t s, off_t o);
             int size();
+            int truncate(off_t o);
             p_path path;
 
         private:
-            std::string content;
+            std::string content_;
+            size_t size_;
         };
     }
 } // namespace chatfs

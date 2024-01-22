@@ -61,6 +61,21 @@ namespace chatfs
      * @return Number of bytes written
     */
     int chatfs_write_file(p_path, p_inBuf, size_t, off_t, s_fuseFI *fi);
+
+    /**
+     * @brief Truncate file
+     * @param p Path to file
+     * @param o Offset of file
+     * @return 0 on success, -1 on failure
+    */
+    int chatfs_truncate(p_path, off_t);
+
+    /**
+     * @brief Unlink file
+     * @param p Path to file
+     * @return 0 on success, -1 on failure
+    */
+    int chatfs_unlink(p_path);
 } // namespace chatfs
 
 
