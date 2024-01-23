@@ -2,7 +2,8 @@
 
 bool chatfs::chat::TestChating::send(const std::string req, std::string &resp)
 {
-    resp = req;
+    resp.assign(req);
+    resp.append(1, '\n');
     return true;
 }
 

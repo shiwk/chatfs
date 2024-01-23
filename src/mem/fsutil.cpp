@@ -111,6 +111,7 @@ namespace chatfs
             {
                 return ENOENT;
             }
+            std::cout << "need write length:" << s << ", offset " << off << ", last is "<< (int)b[off + s - 1]<< std::endl;
             auto file = fileMap[p + 1];
             return file->write(b, s, off);
         }

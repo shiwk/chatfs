@@ -14,7 +14,9 @@ namespace chatfs
             sFile(path p) : path(p), content_("")
             {
                 chatPtr = std::shared_ptr<chatfs::chat::Chating>(chatfs::chat::Chating::newChat());
-                chatPtr->send(p, content_);
+                std::string content;
+                chatPtr->send(p, content);
+                write(content.data(), content.length(), 0);
             };
             int read(outBuf b, size_t s, off_t o);
             int write(inBuf b, size_t s, off_t o);
