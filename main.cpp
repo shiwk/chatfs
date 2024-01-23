@@ -1,4 +1,4 @@
-#include "chatfs.h"
+#include "chatfs.hpp"
 #include <iostream>
 #include <fuse.h>
 #include <stdio.h>

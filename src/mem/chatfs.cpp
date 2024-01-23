@@ -1,14 +1,14 @@
-#include "chatfs.h"
-#include "fsutil.h"
-#include "dir.h"
-#include "file.h"
+#include "chatfs.hpp"
+#include "fsutil.hpp"
+#include "dir.hpp"
+#include "file.hpp"
 #include <iostream>
 #include <unistd.h>
 
 static uid_t guid = getuid();
 static gid_t ggid = getgid();
 
-int chatfs::chatfs_get_attr(p_path p, s_stat *st)
+int chatfs::chatfs_get_attr(path p, s_stat *st)
 {
     std::cout << "begin read chatfs attr " << p << std::endl;
     st->st_uid = guid;
@@ -47,8 +47,7 @@ int chatfs::chatfs_read_dir(const char * p, void *b, fuse_fill_dir_t filler, off
     return 0;
 }
 
-
-int chatfs::chatfs_mkdir(p_path p, mode_t m)
+int chatfs::chatfs_mkdir(path p, mode_t m)
 {
     std::cout << "begin mkdir " << p << std::endl;
     int ret = chatfs::util::mkDir(p, m);
@@ -56,7 +55,7 @@ int chatfs::chatfs_mkdir(p_path p, mode_t m)
     return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
-int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
+int chatfs::chatfs_mknod(path p, mode_t m, dev_t d)
 {
     std::cout << "begin mknod " << p << std::endl;
     int ret = chatfs::util::mkNod(p, m, d);
@@ -64,7 +63,7 @@ int chatfs::chatfs_mknod(p_path p, mode_t m, dev_t d)
     return ret == 0 ? 0 : __CHATFSERR__(ret);
 }
 
-int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_fuseFI *fi)
+int chatfs::chatfs_read_file(path p, outBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
     std::cout << "begin read chatfs file " << p << std::endl;
     int ret = chatfs::util::read(p, b, size, offset, fi);
@@ -72,7 +71,7 @@ int chatfs::chatfs_read_file(p_path p, p_outBuf b, size_t size, off_t offset, s_
     return ret >= 0 ? ret : __CHATFSERR__(ret);
 }
 
-int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_fuseFI *fi)
+int chatfs::chatfs_write_file(path p, inBuf b, size_t size, off_t offset, s_fuseFI *fi)
 {
     std::cout << "begin write file " << p << std::endl;
     int ret = chatfs::util::write(p, b, size, offset, fi);
@@ -80,7 +79,7 @@ int chatfs::chatfs_write_file(p_path p, p_inBuf b, size_t size, off_t offset, s_
     return ret >= 0 ? ret : __CHATFSERR__(ret);
 }
 
-int chatfs::chatfs_truncate(p_path p , off_t offset)
+int chatfs::chatfs_truncate(path p , off_t offset)
 {
     std::cout << "begin truncate file " << p << std::endl;
     int ret = chatfs::util::truncate(p, offset);
@@ -88,7 +87,7 @@ int chatfs::chatfs_truncate(p_path p , off_t offset)
     return ret >= 0 ? ret : __CHATFSERR__(ret);
 }
 
-int chatfs::chatfs_unlink(p_path p )
+int chatfs::chatfs_unlink(path p )
 {
     std::cout << "begin unlink file " << p << std::endl;
     int ret = chatfs::util::unlink(p);

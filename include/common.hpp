@@ -13,9 +13,9 @@ namespace chatfs
     using s_stat = struct stat;
     using s_fuseOp = struct fuse_operations;
     using s_fuseFI = struct fuse_file_info;
-    using p_path = const char *;
-    using p_outBuf = char *;
-    using p_inBuf = const char *;
+    using path = const char *;
+    using outBuf = char *;
+    using inBuf = const char *;
 } // namespace chatfs
 
 #endif

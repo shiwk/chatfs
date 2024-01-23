@@ -6,7 +6,7 @@
 #endif
 
 #include <fuse.h>
-#include "common.h"
+#include "common.hpp"
 
 namespace chatfs
 {
@@ -14,11 +14,11 @@ namespace chatfs
     {
         struct sDir
         {
-            sDir(p_path p);
-            int list(p_outBuf b, fuse_fill_dir_t filler);
+            sDir(path p);
+            int list(outBuf b, fuse_fill_dir_t filler);
         };
         
-        int mkdir(p_path p, mode_t m);
+        int mkdir(path p, mode_t m);
     } // namespace dir
 } // namespace chatfs
 

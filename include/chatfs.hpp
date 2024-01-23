@@ -1,7 +1,7 @@
 #ifndef CHATFS_HPP
 #define CHATFS_HPP
 
-#include "common.h"
+#include "common.hpp"
 
 namespace chatfs
 {
@@ -11,7 +11,7 @@ namespace chatfs
      * @param st Stat struct to fill
      * @return 0 on success, -1 on failure
     */
-    int chatfs_get_attr(p_path, s_stat *st);
+    int chatfs_get_attr(path, s_stat *st);
     /**
      * @brief Read directory
      * @param p Path to directory
@@ -21,7 +21,7 @@ namespace chatfs
      * @param fi Fuse file info
      * @return 0 on success, -1 on failure
     */
-    int chatfs_read_dir(p_path, void *b, fuse_fill_dir_t filler, off_t, s_fuseFI *fi);
+    int chatfs_read_dir(path, void *b, fuse_fill_dir_t filler, off_t, s_fuseFI *fi);
 
     /**
      * @brief Read file
@@ -32,7 +32,7 @@ namespace chatfs
      * @param fi Fuse file info
      * @return Number of bytes read
     */
-    int chatfs_read_file(p_path, p_outBuf, size_t, off_t, s_fuseFI *fi);
+    int chatfs_read_file(path, outBuf, size_t, off_t, s_fuseFI *fi);
 
     /**
      * @brief mkdir
@@ -40,7 +40,7 @@ namespace chatfs
      * @param m Mode of dir
      * @return 0 on success, -1 on failure
     */
-    int chatfs_mkdir(p_path, mode_t);
+    int chatfs_mkdir(path, mode_t);
 
     /**
      * @brief Create file
@@ -49,7 +49,7 @@ namespace chatfs
      * @param d Device of file
      * @return 0 on success, -1 on failure
     */
-    int chatfs_mknod(p_path, mode_t, dev_t);
+    int chatfs_mknod(path, mode_t, dev_t);
 
     /**
      * @brief Write file
@@ -60,7 +60,7 @@ namespace chatfs
      * @param fi Fuse file info
      * @return Number of bytes written
     */
-    int chatfs_write_file(p_path, p_inBuf, size_t, off_t, s_fuseFI *fi);
+    int chatfs_write_file(path, inBuf, size_t, off_t, s_fuseFI *fi);
 
     /**
      * @brief Truncate file
@@ -68,14 +68,14 @@ namespace chatfs
      * @param o Offset of file
      * @return 0 on success, -1 on failure
     */
-    int chatfs_truncate(p_path, off_t);
+    int chatfs_truncate(path, off_t);
 
     /**
      * @brief Unlink file
      * @param p Path to file
      * @return 0 on success, -1 on failure
     */
-    int chatfs_unlink(p_path);
+    int chatfs_unlink(path);
 } // namespace chatfs
 
 

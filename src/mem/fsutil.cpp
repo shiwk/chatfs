@@ -1,5 +1,5 @@
-#include "fsutil.h"
-#include "file.h"
+#include "fsutil.hpp"
+#include "file.hpp"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ namespace chatfs
 {
     namespace util
     {
-        bool isDir(p_path p)
+        bool isDir(path p)
         {
             if (strcmp(p, "/") == 0)
                 return true;
@@ -27,7 +27,7 @@ namespace chatfs
 
             return false;
         }
-        bool isFile(p_path p)
+        bool isFile(path p)
         {
             if (strcmp(p, "/") == 0)
                 return false;
@@ -35,7 +35,7 @@ namespace chatfs
             return fileMap.find(p + 1) != fileMap.end();
         }
 
-        bool GetFile(p_path p, std::shared_ptr<chatfs::file::sFile> &filePtr)
+        bool GetFile(path p, std::shared_ptr<chatfs::file::sFile> &filePtr)
         {
             if (!isFile(p))
                 return false;
@@ -44,7 +44,7 @@ namespace chatfs
             return true;
         }
 
-        int mkDir(p_path p, mode_t m)
+        int mkDir(path p, mode_t m)
         {
             if (isDir(p) || isFile(p))
             {
@@ -55,7 +55,7 @@ namespace chatfs
             return 0;
         }
 
-        int mkNod(p_path p, mode_t m, dev_t d)
+        int mkNod(path p, mode_t m, dev_t d)
         {
             if (isDir(p) || isFile(p))
             {
@@ -68,7 +68,7 @@ namespace chatfs
             return 0;
         }
 
-        int listDir(p_path p, void *b, fuse_fill_dir_t fill)
+        int listDir(path p, void *b, fuse_fill_dir_t fill)
         {
             fill(b, ".", NULL, 0);  // Current Directory
             fill(b, "..", NULL, 0); // Parent Directory
@@ -94,7 +94,7 @@ namespace chatfs
             return 0;
         }
 
-        int read(p_path p, p_outBuf b, size_t s, off_t off, s_fuseFI *)
+        int read(path p, outBuf b, size_t s, off_t off, s_fuseFI *)
         {
             if (!isFile(p))
             {
@@ -105,7 +105,7 @@ namespace chatfs
             return file->read(b, s, off);
         }
 
-        int write(p_path p, p_inBuf b, size_t s, off_t off, s_fuseFI *fi)
+        int write(path p, inBuf b, size_t s, off_t off, s_fuseFI *fi)
         {
             if (!isFile(p))
             {
@@ -115,7 +115,7 @@ namespace chatfs
             return file->write(b, s, off);
         }
 
-        int truncate(p_path p, off_t offset)
+        int truncate(path p, off_t offset)
         {
             if (!isFile(p))
             {
@@ -125,7 +125,7 @@ namespace chatfs
             return file->truncate(offset);
         }
 
-        int unlink(p_path p)
+        int unlink(path p)
         {
             if (!isFile(p))
             {
