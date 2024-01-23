@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 CHAT_FS_ROOT=$(dirname $(readlink -f "$0"))
 cd ${CHAT_FS_ROOT} || exit
 
