@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 #include "common.hpp"
-#include "chat.hpp"
+#include "chatting.hpp"
 #include <string>
 namespace chatfs
 {

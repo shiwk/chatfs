@@ -12,7 +12,7 @@ endif()
 # include_directories(${FUSE_INC_DIR})
 
 set(SRC_CH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/mem)
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/chat/*.cpp)
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/chatting/*.cpp)
 
 
 # link_directories(${FUSE_LIB_DIR})
@@ -22,4 +22,4 @@ add_executable( chatfs
 
 message(STATUS "FUSE_LIB_DIR: ${FUSE_LIB_DIR}")
 
-target_link_libraries(chatfs fuse)
+target_link_libraries(chatfs fuse curl)
