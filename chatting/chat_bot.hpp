@@ -12,7 +12,7 @@ namespace chatfs
         {
         public:
             ChatBot(std::shared_ptr<ChatClient> client) : client_(client) {}
-            bool send(const std::string req, std::string &resp) override;
+            bool Send(const std::string req, std::string &resp) override;
         private:
             std::shared_ptr<ChatClient> client_;
         };
