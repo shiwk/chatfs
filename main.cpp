@@ -17,6 +17,6 @@ static struct fuse_operations chatfs_operations = {
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello, World." << std::endl;
+    std::cout << "Hello, World." <<  std::endl;
     return fuse_main(argc, argv, &chatfs_operations, NULL);
 }

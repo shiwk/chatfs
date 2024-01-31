@@ -11,14 +11,45 @@ chatfs::ChatClient::~ChatClient()
     curl_easy_cleanup(curl_);
 }
 
-bool chatfs::ChatClient::Send(const std::string &url, std::string &response)
+void chatfs::ChatClient::SetUrl(const std::string &url)
+{
+    url_ = url;
+}
+
+void chatfs::ChatClient::AddHeader(const std::string &header)
+{
+    headers_.push_back(header);
+}
+
+void chatfs::ChatClient::SetJsonData(const std::string &json_data)
+{
+    json_data_ = json_data;
+}
+
+bool chatfs::ChatClient::Request(std::string &response)
 {
     if (!curl_)
     {
         return false;
     }
 
-    curl_easy_setopt(curl_, CURLOPT_URL, url.data());
+    curl_easy_setopt(curl_, CURLOPT_URL, url_.data());
+    curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl_, CURLOPT_POST, 1L);
+    //header
+    struct curl_slist* chunk = NULL;
+    for (const auto &header : headers_)
+    {
+        chunk = curl_slist_append(chunk, header.data());
+    }
+    curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, chunk);
+    
+    // set the POST size and content
+    
+    curl_easy_setopt(curl_, CURLOPT_POSTFIELDSIZE, json_data_.size());
+    curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, json_data_.c_str());
+
+    curl_easy_setopt(curl_, CURLOPT_USERAGENT, "chatfs/1.0");
     curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, &WriteRecvMsg);
     curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
 

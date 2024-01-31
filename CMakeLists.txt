@@ -14,6 +14,7 @@ endif()
 set(SRC_CH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/mem)
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${SRC_CH_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/chatting/*.cpp)
 
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # link_directories(${FUSE_LIB_DIR})
 add_executable( chatfs
@@ -22,4 +23,4 @@ add_executable( chatfs
 
 message(STATUS "FUSE_LIB_DIR: ${FUSE_LIB_DIR}")
 
-target_link_libraries(chatfs fuse curl)
+target_link_libraries(chatfs PRIVATE fuse curl nlohmann_json::nlohmann_json)
