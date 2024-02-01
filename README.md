@@ -17,9 +17,10 @@
 
 ## Chat 
 
-```HTML
-<video src="screen_cap.mp4" controls="controls" width="500" height="300"></video>
-```
+<video  width="500" height="300" controls>
+    <source src="screen_cap.mp4"  type= "video/mp4">
+</video>
+
 
 ## Limitations
 
