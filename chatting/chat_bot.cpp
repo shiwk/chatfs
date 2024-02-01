@@ -8,9 +8,9 @@ bool chatfs::chat::ChatBot::Send(const std::string& send_msg, std::string &recv_
     std::string resp;
     bool res = client_->Request(resp);
     assert(res);
-    std::cout << "recv_msg:" << recv_msg << std::endl;
+    //std::cout << "recv_msg:" << recv_msg << std::endl;
     ParseResponse(resp, recv_msg);
-    std::cout << "content:" << recv_msg << std::endl;
+    //std::cout << "content:" << recv_msg << std::endl;
     return true;
 }
 

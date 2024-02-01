@@ -14,16 +14,16 @@ namespace chatfs
             }
             memcpy(b, content_.data() + off, s);
             size_t len = content_.size() - off;
-            std::cout << "read " << b << " from " << path << std::endl;
-            std::cout << "read len: " << len << std::endl;
+            //std::cout << "read " << b << " from " << path << std::endl;
+            //std::cout << "read len: " << len << std::endl;
             return len;
         }
 
         int sFile::write(inBuf b, size_t s, off_t o)
         {
-            std::cout << "write " << b << " to " << path << std::endl;
+            //std::cout << "write " << b << " to " << path << std::endl;
             content_.assign(b, s);
-            std::cout << "write len:" << content_.size() << std::endl;
+            //std::cout << "write len:" << content_.size() << std::endl;
             size_ = content_.size();
             return size_;
         }

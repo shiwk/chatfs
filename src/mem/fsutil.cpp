@@ -50,7 +50,7 @@ namespace chatfs
             {
                 return EEXIST;
             }
-            std::cout << "new dir:" << p + 1 << std::endl;
+            //std::cout << "new dir:" << p + 1 << std::endl;
             dirs.emplace_back(p + 1);
             return 0;
         }
@@ -62,7 +62,7 @@ namespace chatfs
                 return EEXIST;
             }
 
-            std::cout << "new file:" << p + 1 << std::endl;
+            //std::cout << "new file:" << p + 1 << std::endl;
             file::sFile *file = new file::sFile(p + 1);
             fileMap.emplace(p + 1, file);
             return 0;
@@ -81,13 +81,13 @@ namespace chatfs
 
             for (auto d : dirs)
             {
-                std::cout << "dir:" << d << std::endl;
+                //std::cout << "dir:" << d << std::endl;
                 fill(b, d.data(), NULL, 0);
             }
 
             for (auto f : fileMap)
             {
-                std::cout << "file:" << f.first << std::endl;
+                //std::cout << "file:" << f.first << std::endl;
                 fill(b, f.first.data(), NULL, 0);
             }
 
@@ -111,7 +111,7 @@ namespace chatfs
             {
                 return ENOENT;
             }
-            std::cout << "need write length:" << s << ", offset " << off << ", last is "<< (int)b[off + s - 1]<< std::endl;
+            //std::cout << "need write length:" << s << ", offset " << off << ", last is "<< (int)b[off + s - 1]<< std::endl;
             auto file = fileMap[p + 1];
             return file->write(b, s, off);
         }

@@ -34,7 +34,7 @@ bool chatfs::ChatClient::Request(std::string &response)
     }
 
     curl_easy_setopt(curl_, CURLOPT_URL, url_.data());
-    curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
+    // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
     curl_easy_setopt(curl_, CURLOPT_POST, 1L);
     //header
     struct curl_slist* chunk = NULL;

@@ -7,6 +7,8 @@
 
  `pkg-config fuse --cflags --libs`
 
+ And else, [nlohmann/json](https://github.com/nlohmann/json?tab=readme-ov-file#external) is used for chating request/response post data parsing. Make sure it has been installed.
+
 ## Build & Clean
 
  `sh build.sh`
