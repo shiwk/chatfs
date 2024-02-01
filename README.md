@@ -18,7 +18,8 @@
 ## Chat 
 
 <video  width="500" height="300" controls>
-    <source src="screen_cap.mp4"  type= "video/mp4">
+    <source src="screen_cap.mp4" type= "video/mp4">
+    <img src="screen_cap.png">
 </video>
 
 
