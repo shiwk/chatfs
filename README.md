@@ -17,7 +17,7 @@
 
 ## Chat 
 
-<video src="https://github.com/shiwk/chatfs/blob/main/screen_cap.mp4" width="500" height="300" ><video> 
+<video src="https://github.com/shiwk/chatfs/assets/15605033/e78a5814-5a12-4a75-9ee5-ecdba0885377" ></video> 
 
 ## Limitations
 
