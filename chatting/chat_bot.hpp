@@ -15,12 +15,14 @@ namespace chatfs
         public:
             ChatBot(std::shared_ptr<ChatClient> client) : client_(client) {
                 std::ifstream fJson("config.json");
-                buffer_ << fJson.rdbuf();
+                configBuf_ << fJson.rdbuf();
             }
-            bool Send(const std::string req, std::string &resp) override;
+            bool Send(const std::string& req, std::string &resp) override;
         private:
+            void GenerateHeaderAndPostData(const std::string& send_msg);
+            void ParseResponse(const std::string& resp, std::string& data);
             std::shared_ptr<ChatClient> client_;
-            std::stringstream buffer_;
+            std::stringstream configBuf_;
         };
     } // namespace chat
 } // namespace chatfs

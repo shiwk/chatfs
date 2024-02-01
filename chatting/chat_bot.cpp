@@ -2,16 +2,26 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-bool chatfs::chat::ChatBot::Send(const std::string send_msg, std::string &recv_msg)
+bool chatfs::chat::ChatBot::Send(const std::string& send_msg, std::string &recv_msg)
 {
-    auto config = nlohmann::json::parse(buffer_.str());
+    GenerateHeaderAndPostData(send_msg);
+    std::string resp;
+    bool res = client_->Request(resp);
+    assert(res);
+    std::cout << "recv_msg:" << recv_msg << std::endl;
+    ParseResponse(resp, recv_msg);
+    std::cout << "content:" << recv_msg << std::endl;
+    return true;
+}
+
+void chatfs::chat::ChatBot::GenerateHeaderAndPostData(const std::string& send_msg)
+{
+    auto config = nlohmann::json::parse(configBuf_.str());
     std::string url;
     config["url"].get_to<std::string>(url);
-
+    client_->SetUrl(url);
     std::string sk;
     config["sk"].get_to<std::string>(sk);
-
-    client_->SetUrl(url);
     client_->AddHeader("Content-Type: application/json");
     client_->AddHeader("Authorization: Bearer " + sk);
 
@@ -27,10 +37,13 @@ bool chatfs::chat::ChatBot::Send(const std::string send_msg, std::string &recv_m
     json_data["messages"].push_back(message);
     json_data["temperature"] = config["temperature"];
     client_->SetJsonData(json_data.dump());
-    bool res = client_->Request(recv_msg);
-    assert(res);
-    std::cout << "recv_msg:" << recv_msg << std::endl;
-    return true;
+    
+}
+
+void chatfs::chat::ChatBot::ParseResponse(const std::string &resp, std::string &data)
+{
+    auto respJson = nlohmann::json::parse(resp);
+    respJson["choices"][0]["message"]["content"].get_to<std::string>(data);
 }
 
 chatfs::chat::Chating *chatfs::chat::Chating::NewChat()

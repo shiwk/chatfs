@@ -1,0 +1,7 @@
+{
+    "url":"https://{xxx}/v1/chat/completions", 
+    "sk":"sk-{xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}", 
+    "model": "gpt-{xxx}",
+    "role": "user", 
+    "temperature": "0.{x}"
+}

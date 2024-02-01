@@ -7,7 +7,7 @@ namespace chatfs{
     namespace chat{
         class Chating{
             public:
-                virtual bool Send(const std::string req, std::string& resp) = 0;
+                virtual bool Send(const std::string& req, std::string& resp) = 0;
                 static Chating* NewChat();
         };
     }
