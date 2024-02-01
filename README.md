@@ -15,6 +15,11 @@
  
  `sh clean.sh`
 
+## Chat 
+
+```HTML
+<video src="screen_cap.mp4" controls="controls" width="500" height="300"></video>
+```
 
 ## Limitations
 
