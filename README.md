@@ -17,7 +17,7 @@
 
 ## Chat 
 
-<video  src="screen_cap.mp4" type= "video/mp4" width="500" height="300" controls> </video>
+<video  src="https://github.com/shiwk/chatfs/blob/main/screen_cap.mp4" type= "video/mp4" width="500" height="300" controls> </video>
 
 
 ## Limitations
